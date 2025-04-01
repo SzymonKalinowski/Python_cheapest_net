@@ -6,7 +6,8 @@ class ElectricityProduction:
 
     def open_file(self):
         f = open(self.pathToFile, "r")
-        print(self.read_data(f.readlines()))
+        self.read_data(f.readlines())
+
 
     def read_data(self, lines=list):
         result = []
@@ -21,3 +22,6 @@ class ElectricityProduction:
                 print("Wrong format")
 
         return result
+
+    def export_data(self):
+        return self.read_data()
