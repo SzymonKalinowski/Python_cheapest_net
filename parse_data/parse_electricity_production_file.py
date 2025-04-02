@@ -3,11 +3,10 @@ from dataclasses import dataclass
 @dataclass
 class ElectricityProduction:
     pathToFile: str
-
+    data: list = None
     def open_file(self):
         f = open(self.pathToFile, "r")
-        self.read_data(f.readlines())
-
+        self.data = self.read_data(f.readlines())
 
     def read_data(self, lines=list):
         result = []
@@ -24,4 +23,4 @@ class ElectricityProduction:
         return result
 
     def export_data(self):
-        return self.read_data()
+        return self.data
