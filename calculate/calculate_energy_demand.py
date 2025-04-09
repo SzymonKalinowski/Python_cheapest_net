@@ -1,10 +1,9 @@
 from dataclasses import dataclass
-from main import electricityProduction
 
-@dataclass()
+@dataclass
 class EnergyDemandCalculator:
-    data = electricityProduction.export_data()
-    electricity_demand: float = 0   
+    data: list
+    electricity_demand: float = 0
     cities_with: list = None
     cities_without: list = None
 
@@ -30,8 +29,3 @@ class EnergyDemandCalculator:
         sorted_without = sorted(self.cities_without, key=lambda x: x[1])
 
         return sorted_with, sorted_without
-
-calculator = EnergyDemandCalculator()
-demand = calculator.calculate_energy_demand()
-cities = calculator.cities_with_or_without_energy_plants()
-print(demand, cities)
