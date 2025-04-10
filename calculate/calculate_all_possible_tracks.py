@@ -9,26 +9,23 @@ class AllPossibleTracks:
     city_connections: dict = field(default_factory=dict)
 
     def find_unique_cities(self):
+        unique = set()
         for distance in self.data:
-            self.unique_cities.add(distance[0])
-            self.unique_cities.add(distance[1])
-        self.unique_cities = sorted(list(self.unique_cities))
+            unique.add(distance[0])
+            unique.add(distance[1])
+        self.unique_cities = sorted(list(unique))
         return self.unique_cities
 
 
     def all_city_conections(self):
+        self.find_unique_cities()
+        city_connections = {}
         for city in self.unique_cities:
-            self.key = city
+            connected = set()
             for d in self.data:
-                if d[0] in city:
-                    self.connected_cities.add(d[1])
-
-                if d[1] in city:
-                    self.connected_cities.add(d[0])
-
-        self.connected_cities = sorted(list(self.connected_cities))
-        self.city_connections[self.key] = self.connected_cities
-
-        return self.city_connections
-
-
+                if d[0] == city:
+                    connected.add(d[1])
+                if d[1] == city:
+                    connected.add(d[0])
+            city_connections[city] = sorted(list(connected))
+        return city_connections

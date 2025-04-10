@@ -16,6 +16,5 @@ cities = calculator.cities_with_or_without_energy_plants()
 # print(demand, cities)
 
 possibleCities = AllPossibleTracks(distance.export_data())
-possibleCities.find_unique_cities()
 connected = possibleCities.all_city_conections()
 print(connected)
