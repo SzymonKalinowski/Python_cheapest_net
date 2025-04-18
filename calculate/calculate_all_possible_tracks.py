@@ -29,3 +29,16 @@ class AllPossibleTracks:
                     connected.add(d[0])
             city_connections[city] = sorted(list(connected))
         return city_connections
+
+    def convert_into_graph(self):
+        graph = {}
+        self.find_unique_cities()
+        for city in self.unique_cities:
+            graph[city] = []
+            for d in self.data:
+                if d[0] == city:
+                    graph[city].append((d[1], d[2]))
+                elif d[1] == city:
+                    graph[city].append((d[0], d[2]))
+
+        return graph
