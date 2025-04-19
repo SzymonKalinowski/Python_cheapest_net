@@ -14,3 +14,5 @@ class Dijkstra:
             for i in self.graph.keys():
                 if self.start == i:
                     distances = 0
+                    for connections in self.graph[i]:
+                        continue
