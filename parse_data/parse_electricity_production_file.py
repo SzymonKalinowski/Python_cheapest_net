@@ -14,7 +14,7 @@ class ElectricityProduction:
             line = line.split()
             if len(line) == 2:
                 try:
-                    result.append([line[0], float(line[1])])
+                    result.append((line[0], float(line[1])))
                 except ValueError:
                     print("Cannot convert to float")
             else:

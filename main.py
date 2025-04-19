@@ -10,6 +10,8 @@ print("\n")
 
 electricityProduction = ElectricityProduction(r"C:\Python_cheapest_net\electricity_production.txt")
 electricityProduction.open_file()
+print(electricityProduction.export_data())
+print("\n")
 
 calculator = EnergyDemandCalculator(electricityProduction.export_data())
 demand = calculator.calculate_energy_demand()

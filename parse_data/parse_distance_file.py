@@ -15,7 +15,7 @@ class Distance:
             line = line.split()
             if len(line) == 3:
                 try:
-                    result.append([line[0], line[1], float(line[2])])
+                    result.append((line[0], line[1], float(line[2])))
                 except ValueError:
                     print("Cannot convert to float")
             else:
