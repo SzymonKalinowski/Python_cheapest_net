@@ -30,7 +30,7 @@ class Dijkstra:
 
             visited.add(current_node)
 
-            for neighbor, weight in self.graph[current_node].items():
+            for neighbor, weight in self.graph[current_node]:
                 if neighbor not in visited:
                     new_distance = self.distances[current_node] + weight
                     if new_distance < self.distances[neighbor]:
