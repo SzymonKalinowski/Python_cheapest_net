@@ -9,3 +9,9 @@ F G 1
 F H 3
 G H 2
 D H 1
+D I 4
+E K 3
+I K 2
+C F 6
+H J 1
+K J 3

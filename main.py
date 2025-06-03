@@ -28,7 +28,7 @@ graph = possibleCities.convert_into_graph()
 print(graph)
 print("\n")
 
-dijkstra = Dijkstra(graph, start='A', end='G')
+dijkstra = Dijkstra(graph, start='J', end='C')
 path, cost = dijkstra.dijkstra_algorithm()
 print("Ścieżka:", path)
 print("Koszt:", cost)
