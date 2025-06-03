@@ -2,6 +2,8 @@ from parse_data.parse_distance_file import Distance
 from parse_data.parse_electricity_production_file import ElectricityProduction
 from calculate.calculate_energy_demand import EnergyDemandCalculator
 from calculate.calculate_all_possible_tracks import AllPossibleTracks
+from dijkastra_algorythm.dijkastra_algorythm import Dijkstra
+from dijkastra_algorythm.visualisation import GraphVisualizer
 
 distance = Distance(r"C:\Python_cheapest_net\distances.txt")
 distance.open_file()
@@ -11,6 +13,7 @@ print("\n")
 electricityProduction = ElectricityProduction(r"C:\Python_cheapest_net\electricity_production.txt")
 electricityProduction.open_file()
 print(electricityProduction.export_data())
+data_to_visualize = electricityProduction.export_data()
 print("\n")
 
 calculator = EnergyDemandCalculator(electricityProduction.export_data())
@@ -24,3 +27,11 @@ connected = possibleCities.all_city_conections()
 graph = possibleCities.convert_into_graph()
 print(graph)
 print("\n")
+
+dijkstra = Dijkstra(graph, start='A', end='G')
+path, cost = dijkstra.dijkstra_algorithm()
+print("Ścieżka:", path)
+print("Koszt:", cost)
+
+visualizer = GraphVisualizer(graph, data_to_visualize, dijkstra)
+visualizer.run()
