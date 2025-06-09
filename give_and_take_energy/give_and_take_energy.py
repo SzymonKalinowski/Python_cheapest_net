@@ -11,11 +11,27 @@ class GiveAndTakeEnergy:
     def GiveAndTakeEnergy(self):
         if self.city_take == self.city_give:
             raise ValueError("Cities cannot be the same")
-        if self.city_take not in self.data:
-            raise ValueError(f"{self.city_take} doesn`t exist")
-        if self.city_give not in self.data:
-            raise ValueError(f"{self.city_give} doesn`t exist")
-        for city in self.data:
-            if
 
+        city_take_exists = False
+        for city, energy in self.data:
+            if city == self.city_take:
+                city_take_exists = True
+                break
+        if not city_take_exists:
+            raise ValueError(f"{self.city_take} doesn't exist")
 
+        city_give_exists = False
+        for city, energy in self.data:
+            if city == self.city_give:
+                city_give_exists = True
+                break
+        if not city_give_exists:
+            raise ValueError(f"{self.city_give} doesn't exist")
+
+        for city, energy in self.data:
+            if city == self.city_take:
+                energy -= self.how_much
+
+        for city, energy in self.data:
+            if city == self.city_give:
+                energy += self.how_much

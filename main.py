@@ -1,9 +1,11 @@
+from give_and_take_energy import give_and_take_energy
 from parse_data.parse_distance_file import Distance
 from parse_data.parse_electricity_production_file import ElectricityProduction
 from calculate.calculate_energy_demand import EnergyDemandCalculator
 from calculate.calculate_all_possible_tracks import AllPossibleTracks
 from dijkastra_algorythm.dijkastra_algorythm import Dijkstra
 from dijkastra_algorythm.visualisation import GraphVisualizer
+from give_and_take_energy.give_and_take_energy import GiveAndTakeEnergy
 
 distance = Distance(r"C:\Python_cheapest_net\distances.txt")
 distance.open_file()
@@ -33,5 +35,8 @@ path, cost = dijkstra.dijkstra_algorithm()
 print("Ścieżka:", path)
 print("Koszt:", cost)
 
-visualizer = GraphVisualizer(graph, data_to_visualize, dijkstra)
-visualizer.run()
+# visualizer = GraphVisualizer(graph, data_to_visualize, dijkstra)
+# visualizer.run()
+
+gte = give_and_take_energy.GiveAndTakeEnergy(data_to_visualize, "A", "O", -5.0)
+print(gte.GiveAndTakeEnergy())
