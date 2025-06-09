@@ -1,42 +1,50 @@
-from give_and_take_energy import give_and_take_energy
-from parse_data.parse_distance_file import Distance
-from parse_data.parse_electricity_production_file import ElectricityProduction
-from calculate.calculate_energy_demand import EnergyDemandCalculator
-from calculate.calculate_all_possible_tracks import AllPossibleTracks
-from dijkastra_algorythm.dijkastra_algorythm import Dijkstra
-from dijkastra_algorythm.visualisation import GraphVisualizer
-from give_and_take_energy.give_and_take_energy import GiveAndTakeEnergy
+from parse_data.parse_distance_file import *
+from parse_data.parse_electricity_production_file import *
+from calculate.calculate_all_possible_tracks import *
+from calculate.calculate_energy_demand import *
+from dijkastra_algorythm.algorythm import *
+from energy_flow.energy_flow import *
 
-distance = Distance(r"C:\Python_cheapest_net\distances.txt")
-distance.open_file()
-print(distance.export_data())
-print("\n")
 
-electricityProduction = ElectricityProduction(r"C:\Python_cheapest_net\electricity_production.txt")
-electricityProduction.open_file()
-print(electricityProduction.export_data())
-data_to_visualize = electricityProduction.export_data()
-print("\n")
+def main_logic():
+    # 1. Wczytanie danych
+    distance = Distance("distances.txt")
+    distance.open_file()
+    distance_data = distance.export_data()
 
-calculator = EnergyDemandCalculator(electricityProduction.export_data())
-demand = calculator.calculate_energy_demand()
-cities = calculator.cities_with_or_without_energy_plants()
-print(demand, cities)
-print("\n")
+    electricityProduction = ElectricityProduction("electricity_production.txt")
+    electricityProduction.open_file()
+    production_data = electricityProduction.export_data()
 
-possibleCities = AllPossibleTracks(distance.export_data())
-connected = possibleCities.all_city_conections()
-graph = possibleCities.convert_into_graph()
-print(graph)
-print("\n")
+    # 2. Obliczenie zapotrzebowania i podział miast
+    calculator = EnergyDemandCalculator(production_data)
+    demand = calculator.calculate_energy_demand()
+    cities_with, cities_without = calculator.cities_with_or_without_energy_plants()
 
-dijkstra = Dijkstra(graph, start='J', end='C')
-path, cost = dijkstra.dijkstra_algorithm()
-print("Ścieżka:", path)
-print("Koszt:", cost)
+    # 3. Zbudowanie grafu
+    possible = AllPossibleTracks(distance_data)
+    graph = possible.convert_into_graph()
+    cities = possible.find_unique_cities()
 
-# visualizer = GraphVisualizer(graph, data_to_visualize, dijkstra)
-# visualizer.run()
+    # 4. Zastosowanie Kruskala do znalezienia MST
+    edges = graph_to_edges(graph)
+    kruskal = Kruskal(cities, edges)
+    mst = kruskal.kruskal()
 
-gte = give_and_take_energy.GiveAndTakeEnergy(data_to_visualize, "A", "O", -5.0)
-print(gte.GiveAndTakeEnergy())
+    # 5. Wyznaczenie przepływów energii w MST
+    power_flow = assign_power_flow(mst, cities_with, cities_without)
+
+    # 6. Obliczenie całkowitego kosztu
+    total_cost = calculate_total_cost(mst, power_flow)
+
+    # 7. Wyniki
+    print("Required connections:")
+    for edge in mst:
+        print(edge)
+    print("\nEnergy flow:")
+    for edge, amount in power_flow.items():
+        print(f"{edge}: {amount}")
+    print(f"\nCost: {total_cost}")
+
+if __name__ == "__main__":
+    main_logic()
