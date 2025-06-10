@@ -4,6 +4,7 @@ from calculate.calculate_all_possible_tracks import *
 from calculate.calculate_energy_demand import *
 from dijkastra_algorythm.algorythm import *
 from energy_flow.energy_flow import *
+from vizualize import *
 
 
 def main_logic():
@@ -45,6 +46,10 @@ def main_logic():
     for edge, amount in power_flow.items():
         print(f"{edge}: {amount}")
     print(f"\nCost: {total_cost}")
+
+    # 8. Wizualizacja
+    visualizer = PygameVisualizer(graph, mst, power_flow)
+    visualizer.run()
 
 if __name__ == "__main__":
     main_logic()
